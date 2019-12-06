@@ -3,11 +3,30 @@
 // BUDGET CONTROLLER
 var budgetController = (function() {
     
-    // Add code
+    var Expense = function(id, description, value){
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
     
-    return {
-        publicTest: function(b) {
-            return add(b);
+    var Income = function(id, description, value){
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+    
+    var allExpenses = [];
+    var allExpenses = [];
+    var totalExpenses = 0;
+    
+    var data = {
+        allItems : {
+            exp: [],
+            inc: []
+        },
+        totals : {
+            exp: 0,
+            inc: 0
         }
     }
     
