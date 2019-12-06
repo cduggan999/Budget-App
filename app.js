@@ -44,7 +44,19 @@ var UIController = (function() {
 // GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, UICtrl) {
     
-    var DOM = UICtrl.getDOMStrings();
+    var setupEventListners = function(){
+        var DOM = UICtrl.getDOMStrings();
+        
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+        document.addEventListener('keypress', function(event) {
+        // 'Enter' = keycode 13
+            if (event.keyCode === 13 || event.which === 13){
+                ctrlAddItem();
+            }
+        });
+    }
+    
+    
     
     var ctrlAddItem = function(){
         // 1. Get the input field data
@@ -61,9 +73,9 @@ var controller = (function(budgetCtrl, UICtrl) {
         
         // 6. Apply the above to hitting Enter
         console.log('ctrlAddItem function was called');
-    }
+    };
     
-    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+   /* document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
     
     document.addEventListener('keypress', function(event) {
        // console.log(event);
@@ -76,6 +88,15 @@ var controller = (function(budgetCtrl, UICtrl) {
         else {
            // console.log('you pressed something else');
         }
-    })
+    })*/
+    
+    return {
+        init: function(){
+            console.log('Application has started!');
+            setupEventListners();
+        }
+    };
     
 })(budgetController, UIController);
+
+controller.init();
