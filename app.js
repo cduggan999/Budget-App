@@ -113,6 +113,7 @@ var UIController = (function() {
         inputDescription : '.add__description',
         inputValue : '.add__value',
         inputBtn : '.add__btn',
+        deleteBtn : 'item__delete--btn',
         incomeContainer : '.income__list',
         expensesContainer : '.expenses__list',
         budgetIncome : '.budget__income--value',
