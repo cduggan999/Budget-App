@@ -82,7 +82,7 @@ var UIController = (function() {
             return {
                 type : document.querySelector(DOMStrings.inputType).value, // inc or exp
                 desc : document.querySelector(DOMStrings.inputDescription).value,
-                value : document.querySelector(DOMStrings.inputValue).value
+                value : parseFloat(document.querySelector(DOMStrings.inputValue).value)
             };
         },
         
@@ -145,8 +145,7 @@ var controller = (function(budgetCtrl, UICtrl) {
         });
     }
     
-    
-    
+
     var ctrlAddItem = function(){
         var input, newItem;
         
@@ -154,40 +153,35 @@ var controller = (function(budgetCtrl, UICtrl) {
         input = UICtrl.getIntput();
         console.log(input);
         
-        // 2. Add item to the budget controller
-        newItem = budgetCtrl.addItem(input.type, input.desc, input.value);
-        
-        // 3. Add the item to the UI
-        UICtrl.addListItem(newItem, input.type);
-        
-        // Clear input fields
-        UICtrl.clearFields();
-        
-        // 4. Calculate the budget
-        
-        // 5. Display the budget
-        
-        // 6. Apply the above to hitting Enter
-        console.log('new item id = ' + newItem.id);
-        console.log('new item desc = ' + newItem.description);
-        console.log('new item value = ' + newItem.value);
-        console.log('ctrlAddItem function was called');
+        if (input.desc !== "" && !isNaN(input.value) && input.value > 0){
+            
+            // 2. Add item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.desc, input.value);
+
+            // 3. Add the item to the UI
+            UICtrl.addListItem(newItem, input.type);
+
+            // 4. Clear input fields
+            UICtrl.clearFields();
+
+            // Calculate and update budget
+            updateBudget();
+
+            console.log('new item id = ' + newItem.id);
+            console.log('new item desc = ' + newItem.description);
+            console.log('new item value = ' + newItem.value);
+            console.log('ctrlAddItem function was called');
+        }
     };
     
-   /* document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
-    
-    document.addEventListener('keypress', function(event) {
-       // console.log(event);
-        // 'Enter' = keycode 13
-        if (event.keyCode === 13 || event.which === 13){
-          //  console.log('you pressed Enter');
-            
-            ctrlAddItem();
-        }
-        else {
-           // console.log('you pressed something else');
-        }
-    })*/
+    var updateBudget = function() {
+        
+        // 1. Calculate the budget
+        console.log('upDateBudget called!');
+        // 2. Display the budget
+        
+        // 3. Apply the above to hitting Enter
+    };
     
     return {
         init: function(){
