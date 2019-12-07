@@ -15,6 +15,17 @@ var budgetController = (function() {
         this.value = value;
     };
     
+    var calculateTotal = function(type){
+        var sum = 0;
+        data.allItems[type].forEach(function(current) {
+            sum += current.value;
+        });
+        
+        // Assign Total value to Income or Expense
+        data.totals[type] = sum;
+            
+    };
+    
     var data = {
         allItems : {
             expense: [],
@@ -23,7 +34,9 @@ var budgetController = (function() {
         totals : {
             expense: 0,
             income: 0
-        }
+        },
+        budget: 0,
+        percentage: -1
     };
     
     return {
@@ -50,10 +63,36 @@ var budgetController = (function() {
             
             // Push into new data structure
             data.allItems[type].push(newItem);
-            console.log('new item = ' + newItem);  
             
             // Returen the new element
             return newItem;
+        },
+        
+        calculateBudget: function(){
+        
+            // Calculate total income and expenses
+            calculateTotal('income');
+            calculateTotal('expense');
+    
+            //Calculate budget: income - expenses
+            data.budget = data.totals.income - data.totals.expense;
+    
+            // Calculate the percentage of income that we spent
+            if (data.totals.income > 0){
+                data.percentage = Math.round((data.totals.expense / data.totals.income) * 100);
+            }
+            else {
+                data.percentage = -1;
+            }
+        },
+        
+        getBudget: function() {
+            return {
+                budget: data.budget,
+                totalIncome: data.totals.income,
+                totalExpense: data.totals.expense,
+                percentage: data.percentage
+            };
         },
         
         // For Testing, remove when finished
@@ -177,8 +216,12 @@ var controller = (function(budgetCtrl, UICtrl) {
     var updateBudget = function() {
         
         // 1. Calculate the budget
+        budgetCtrl.calculateBudget();
         console.log('upDateBudget called!');
+        
         // 2. Display the budget
+        var budget = budgetCtrl.getBudget();
+        console.log(budget);
         
         // 3. Apply the above to hitting Enter
     };
