@@ -1,5 +1,5 @@
 // Module Patterns
-
+// 084
 // BUDGET CONTROLLER
 var budgetController = (function() {
     
@@ -107,6 +107,21 @@ var UIController = (function() {
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
         
+        clearFields: function() {
+            var fieldsList, fieldsArray;
+            fieldsList = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
+            
+            // Use the slice function of the Array prototype
+            fieldsArray = Array.prototype.slice.call(fieldsList);
+            
+            fieldsArray.forEach(function(current, index, array) {
+                current.value = null;
+            })
+            
+            // Set focus back to description field
+            fieldsArray[0].focus();
+        },
+        
         getDOMStrings: function() {
             return DOMStrings;
         }
@@ -144,6 +159,9 @@ var controller = (function(budgetCtrl, UICtrl) {
         
         // 3. Add the item to the UI
         UICtrl.addListItem(newItem, input.type);
+        
+        // Clear input fields
+        UICtrl.clearFields();
         
         // 4. Calculate the budget
         
