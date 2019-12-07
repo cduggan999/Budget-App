@@ -103,6 +103,7 @@ var budgetController = (function() {
     
 })();
 
+////////////////////////////////////////////////////////////
 
 // UI CONTROLLER
 var UIController = (function() {
@@ -113,7 +114,11 @@ var UIController = (function() {
         inputValue : '.add__value',
         inputBtn : '.add__btn',
         incomeContainer : '.income__list',
-        expensesContainer : '.expenses__list'
+        expensesContainer : '.expenses__list',
+        budgetIncome : '.budget__income--value',
+        budgetExpenses : '.budget__expenses--value',
+        budgetNet : '.budget__value',
+        percentageExpense : '.budget__expenses--percentage'
     };
     
     return {
@@ -161,6 +166,19 @@ var UIController = (function() {
             fieldsArray[0].focus();
         },
         
+        displayBudget: function(obj){
+            document.querySelector(DOMStrings.budgetNet).textContent = obj.budget;
+            document.querySelector(DOMStrings.budgetIncome).textContent = '+ ' + obj.totalIncome;
+            document.querySelector(DOMStrings.budgetExpenses).textContent = '- ' + obj.totalExpense;
+            if (obj.percentage > 0){
+                document.querySelector(DOMStrings.percentageExpense).textContent = obj.percentage + '%';
+            }
+            else {
+                document.querySelector(DOMStrings.percentageExpense).textContent ='---';
+            }
+            
+        },
+        
         getDOMStrings: function() {
             return DOMStrings;
         }
@@ -168,6 +186,7 @@ var UIController = (function() {
     
 })();
 
+////////////////////////////////////////////////////////////////////////////////
 
 // GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, UICtrl) {
@@ -221,7 +240,9 @@ var controller = (function(budgetCtrl, UICtrl) {
         
         // 2. Display the budget
         var budget = budgetCtrl.getBudget();
-        console.log(budget);
+        
+        // 3. Display the budget in the UI
+        UICtrl.displayBudget(budget);
         
         // 3. Apply the above to hitting Enter
     };
@@ -229,6 +250,13 @@ var controller = (function(budgetCtrl, UICtrl) {
     return {
         init: function(){
             console.log('Application has started!');
+            // Reset the budget display
+            UICtrl.displayBudget({
+                budget: 0,
+                totalIncome: 0,
+                totalExpense: 0,
+                percentage: -1
+            });
             setupEventListners();
         }
     };
