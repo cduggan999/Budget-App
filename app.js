@@ -113,7 +113,7 @@ var UIController = (function() {
         inputDescription : '.add__description',
         inputValue : '.add__value',
         inputBtn : '.add__btn',
-        deleteBtn : 'item__delete--btn',
+        container : '.container',
         incomeContainer : '.income__list',
         expensesContainer : '.expenses__list',
         budgetIncome : '.budget__income--value',
@@ -160,7 +160,7 @@ var UIController = (function() {
             fieldsArray = Array.prototype.slice.call(fieldsList);
             
             fieldsArray.forEach(function(current, index, array) {
-                current.value = null;
+                current.value = '';
             })
             
             // Set focus back to description field
@@ -202,6 +202,8 @@ var controller = (function(budgetCtrl, UICtrl) {
                 ctrlAddItem();
             }
         });
+        
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
     }
     
 
@@ -230,6 +232,27 @@ var controller = (function(budgetCtrl, UICtrl) {
             console.log('new item desc = ' + newItem.description);
             console.log('new item value = ' + newItem.value);
             console.log('ctrlAddItem function was called');
+        }
+    };
+    
+    var ctrlDeleteItem = function(event){
+        var itemID, splitID, type, ID;
+        
+        // Transverse up the DOM to get desired element ID
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        
+        // If Item ID found, delete
+        if (itemID) {
+            
+            splitID = itemID.split('-');
+            type = splitID[0];
+            ID = splitID[1];
+            
+            // 1. Delete item from the data structure
+            
+            // 2. Delete the item from the UI
+            
+            // 3. Update the UI to show new budget
         }
     };
     
