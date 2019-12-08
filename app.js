@@ -1,5 +1,5 @@
 // Module Patterns
-// 084
+// 091 02:14 Line 73
 // BUDGET CONTROLLER
 var budgetController = (function() {
     
@@ -66,6 +66,29 @@ var budgetController = (function() {
             
             // Returen the new element
             return newItem;
+        },
+        
+        deleteItem: function(type, id){
+            console.log('id --' + id);
+            var idArray, index;
+            // Find index of item to delete
+            idArray = data.allItems[type].map(function(current){
+                // returns an array with just the id's
+                console.log('current id --' + current.id);
+                return current.id;
+            });
+            
+            
+            for (var i =0; i <idArray.length; i++){
+                console.log('idArray contents == ' + idArray[i]);
+            };
+            
+            index = idArray.indexOf(id);
+            console.log('delete -- index --' + index);
+            
+            if (index !== -1){
+                data.allItems[type].splice(index, 1);
+            }
         },
         
         calculateBudget: function(){
@@ -246,9 +269,10 @@ var controller = (function(budgetCtrl, UICtrl) {
             
             splitID = itemID.split('-');
             type = splitID[0];
-            ID = splitID[1];
+            ID = parseInt(splitID[1]);
             
             // 1. Delete item from the data structure
+            budgetCtrl.deleteItem(type, ID);
             
             // 2. Delete the item from the UI
             
