@@ -201,6 +201,12 @@ var UIController = (function() {
             return (type === 'income' ? '+' : '-') + ' ' + int + '.' + dec;
     };
     
+    var nodeListForEach = function(list, callback) {
+        for (var i=0; i < list.length; i++){
+            callback(list[i], i);
+        }
+    };
+    
     return {
         getIntput: function() {
             return {
@@ -273,12 +279,6 @@ var UIController = (function() {
             var perFields = document.querySelectorAll(DOMStrings.expItemPerc);
             
             // Function to loop through eac item in list and apply a callback function to it
-            var nodeListForEach = function(list, callback) {
-                for (var i=0; i < list.length; i++){
-                    callback(list[i], i);
-                }
-            };
-            
             nodeListForEach(perFields, function(current, index) {
                 
                 if (percentages[index] > 0) {
@@ -305,6 +305,21 @@ var UIController = (function() {
             document.querySelector(DOMStrings.dateLabel).textContent = month + ' ' + year;
         },
         
+        changedType : function() {
+            // Changes highlight border between green and red
+            var fields = document.querySelectorAll(
+                DOMStrings.inputType +',' +
+                DOMStrings.inputDescription +',' +
+                DOMStrings.inputValue);
+            
+            
+            nodeListForEach(fields, function(curr) {
+                curr.classList.toggle('red-focus');
+            });
+            
+            document.querySelector(DOMStrings.inputBtn).classList.toggle('red');
+        },
+        
         getDOMStrings: function() {
             return DOMStrings;
         }
@@ -329,6 +344,8 @@ var controller = (function(budgetCtrl, UICtrl) {
         });
         
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+        
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
     }
     
 
