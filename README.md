@@ -1,6 +1,11 @@
 # Budget-App
 
 
+<h4>Architecture of Budget App</h4>
+
+![GitHub Logo](/images/screenshot.JPG)
+
+<br><br>
 
 <h4>Architecture of Budget App</h4>
 
