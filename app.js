@@ -167,10 +167,10 @@ var UIController = (function() {
         incomeContainer : '.income__list',
         expensesContainer : '.expenses__list',
         budgetIncome : '.budget__income--value',
-        budgetIncomePercentage : '.budget__income--percentage',
+        expItemPerc : '.item__percentage',
         budgetExpenses : '.budget__expenses--value',
         budgetNet : '.budget__value',
-        percentageExpense : '.budget__expenses--percentage'
+        percentageExpenseBudget : '.budget__expenses--percentage'
     };
     
     return {
@@ -229,12 +229,37 @@ var UIController = (function() {
             document.querySelector(DOMStrings.budgetIncome).textContent = '+ ' + obj.totalIncome;
             document.querySelector(DOMStrings.budgetExpenses).textContent = '- ' + obj.totalExpense;
             if (obj.percentage > 0){
-                document.querySelector(DOMStrings.percentageExpense).textContent = obj.percentage + '%';
+                document.querySelector(DOMStrings.percentageExpenseBudget).textContent = obj.percentage + '%';
             }
             else {
-                document.querySelector(DOMStrings.percentageExpense).textContent ='---';
+                document.querySelector(DOMStrings.percentageExpenseBudget).textContent ='---';
             }
+                   
+        },
+        
+        displayPercentages: function(percentages){
             
+            // Returns a nodeList of all the percentages
+            var perFields = document.querySelectorAll(DOMStrings.expItemPerc);
+            
+            // Function to loop through eac item in list and apply a callback function to it
+            var nodeListForEach = function(list, callback) {
+                for (var i=0; i < list.length; i++){
+                    callback(list[i], i);
+                }
+            };
+            
+            nodeListForEach(perFields, function(current, index) {
+                
+                if (percentages[index] > 0) {
+                    current.textContent = percentages[index] + '%';
+                }
+                else {
+                     current.textContent = '---';
+                }             
+            });
+            console.log(' called UI displayPercentages');
+
         },
         
         getDOMStrings: function() {
@@ -340,9 +365,7 @@ var controller = (function(budgetCtrl, UICtrl) {
         allPercentages = budgetCtrl.getPercentages();
         
         // 3. Display the percentage in the UI
-     //   UICtrl.displayBudget(budget);
-        console.log('percenages : ');
-        console.log(allPercentages);
+        UICtrl.displayPercentages(allPercentages);
     };
     
     return {
