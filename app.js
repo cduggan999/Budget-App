@@ -1,5 +1,5 @@
 // Module Patterns
-// 091 02:14 Line 73
+// 
 // BUDGET CONTROLLER
 var budgetController = (function() {
     
@@ -45,11 +45,9 @@ var budgetController = (function() {
             
             // ID of new item should be one greater than size of array
             if (data.allItems[type].length > 0) {
-                console.log('37');
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
             }
             else {
-                console.log('41');
                ID = 0; 
             }
              
@@ -69,22 +67,18 @@ var budgetController = (function() {
         },
         
         deleteItem: function(type, id){
-            console.log('id --' + id);
             var idArray, index;
             // Find index of item to delete
             idArray = data.allItems[type].map(function(current){
                 // returns an array with just the id's
-                console.log('current id --' + current.id);
                 return current.id;
             });
             
             
             for (var i =0; i <idArray.length; i++){
-                console.log('idArray contents == ' + idArray[i]);
             };
             
             index = idArray.indexOf(id);
-            console.log('delete -- index --' + index);
             
             if (index !== -1){
                 data.allItems[type].splice(index, 1);
@@ -175,6 +169,12 @@ var UIController = (function() {
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
         
+        deleteListItem: function(selectorID) {
+            var element = document.getElementById(selectorID);
+            console.log('173 UI Element = ');
+            element.parentNode.removeChild(element);
+        },
+        
         clearFields: function() {
             var fieldsList, fieldsArray;
             fieldsList = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
@@ -248,7 +248,7 @@ var controller = (function(budgetCtrl, UICtrl) {
             // 4. Clear input fields
             UICtrl.clearFields();
 
-            // Calculate and update budget
+            // 5. Calculate and update budget
             updateBudget();
 
             console.log('new item id = ' + newItem.id);
@@ -275,8 +275,10 @@ var controller = (function(budgetCtrl, UICtrl) {
             budgetCtrl.deleteItem(type, ID);
             
             // 2. Delete the item from the UI
+            UICtrl.deleteListItem(itemID);
             
             // 3. Update the UI to show new budget
+            updateBudget();
         }
     };
     
@@ -291,8 +293,6 @@ var controller = (function(budgetCtrl, UICtrl) {
         
         // 3. Display the budget in the UI
         UICtrl.displayBudget(budget);
-        
-        // 3. Apply the above to hitting Enter
     };
     
     return {
