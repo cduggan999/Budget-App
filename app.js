@@ -31,9 +31,8 @@ var budgetController = (function() {
     
     var calculateTotal = function(type){
         var sum = 0;
-        data.allItems[type].forEach(function(current) {
-            sum += current.value;
-        });
+        data.allItems[type].forEach((current) => sum += current.value);
+     
         
         // Assign Total value to Income or Expense
         data.totals[type] = sum;
@@ -120,9 +119,7 @@ var budgetController = (function() {
         calculatePercentages: function(){
         
             // Calculate percentage for each item in expense array
-            data.allItems.expense.forEach(function(current){
-                current.calcPercentage(data.totals.income);
-            });
+            data.allItems.expense.forEach((current) => current.calcPercentage(data.totals.income));
             
             console.log('calculatePercenage called!');
         },
@@ -430,7 +427,7 @@ var controller = (function(budgetCtrl, UICtrl) {
     
     return {
         init: function(){
-            console.log('Application has started!');
+            console.log('Application has started!!');
             // Reset the budget display
             UICtrl.displayBudget({
                 budget: 0,
