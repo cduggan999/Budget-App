@@ -1,7 +1,7 @@
 # Budget-App
 
 
-<h4>scrrenshot</h4>
+<h4>Screenshot</h4>
 
 ![GitHub Logo](/images/screenshot.JPG)
 
